@@ -77,7 +77,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-#define DATA_SIZE 200
+#define DATA_SIZE 300
 static 	uint8_t data[DATA_SIZE];
 static 	uint8_t rdata[DATA_SIZE];
 
@@ -196,12 +196,12 @@ void StartDefaultTask(void const * argument)
 //		vTaskDelay(1);
 //		vTaskDelay(1);
 		// hspi1 is conf as master; hspi2 is slave
-
+/*
 		for(i = 0;i < DATA_SIZE;i++)
 		{
 			rdata[i] = '_';
 		}
-
+*/
 //		ret = HAL_SPI_TransmitReceive(&hspi2, &data[0], &rdata[0], Size, 100);
 		HAL_SPI_Receive(&hspi2, &rdata[0], Size, 2000);
 /*
@@ -212,7 +212,7 @@ void StartDefaultTask(void const * argument)
 		}
 */
 		ret = HAL_UART_Transmit(&huart2, &rdata[0], Size, 100);
-		vTaskDelay(10);
+		vTaskDelay(5);
 /*
 		xbyte = '\r';
 		HAL_UART_Transmit(&huart2, &xbyte, 1, 100);

@@ -67,7 +67,7 @@ tx_uart_wrapper_unit: entity work.uartLED(str_arch)
 	tx=>tx_uart);
 
 spi_master_unit: entity work.SPI_MASTER(RTL)
-	generic map(CLK_FREQ=>50000000,SCLK_FREQ=>30000,SLAVE_COUNT=>2)
+	generic map(CLK_FREQ=>50000000,SCLK_FREQ=>300000,SLAVE_COUNT=>2)
 	port map(CLK=>clk, RST=>reset,
 	SCLK=>SCLK_o,
 	MOSI=>MOSI_o,
@@ -131,7 +131,7 @@ begin
 				end if;
 			when time_delay_dout =>
 				send_flag <= '0';
-				if time_delay_reg > TIME_DELAY9 then	-- about 350us
+				if time_delay_reg > TIME_DELAY9/2 then	-- about 800us
 --				if time_delay_reg > TIME_DELAY8 then	-- about 20ms
 --				if time_delay_reg > TIME_DELAY6 then	-- about 167ms
 --				if time_delay_reg > TIME_DELAY5a then	-- about 320ms
