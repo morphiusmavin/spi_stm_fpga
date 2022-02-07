@@ -114,7 +114,7 @@ begin
 						else	
 							sample <= sample + 1;
 						end if;
-						sample <= sample + 1;
+--						sample <= sample + 1;
 					end if;
 					mspi_din_vld <= '1';
 					state_dout_next <= start_dout;

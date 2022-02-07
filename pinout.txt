@@ -1,8 +1,8 @@
-MOSI_i"		P96
-MISO_o"		P98
-SCLK_i"		P100
+MOSI_i"		P96			light blue
+MISO_o"		P98			red
+SCLK_i"		P100		blue
 SS_i"		P106
-TRIGGER"	P108
+TRIGGER"	P108		yellow
 
 100	99	bottom left 
 98	97  looking at underneath
