@@ -174,6 +174,13 @@ void StartDefaultTask(void const * argument)
 		if(++xbyte > 0x7e)
 			xbyte = 0x21;
 	}
+	xbyte = 0x7e;
+	for(i = 0;i < DATA_SIZE;i++)
+	{
+		rdata[i] = xbyte;
+		if(--xbyte < 0x21)
+			xbyte = 0x73;
+	}
 	vTaskDelay(1000);
 
 	/* Infinite loop */
@@ -183,11 +190,16 @@ void StartDefaultTask(void const * argument)
 		// scope trigger (PB7)
 //		data[0]++;
 		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_SET);
+		vTaskDelay(1);
 		HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
+		vTaskDelay(1);
 		// hspi1 is conf as master; hspi2 is slave
 		HAL_SPI_TransmitReceive(&hspi2, &data[0], &rdata[0], Size, 100);
+		vTaskDelay(1);
 		HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
+		vTaskDelay(1);
 		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_RESET);
+		vTaskDelay(1);
 		ret = HAL_UART_Transmit(&huart2, &rdata[0], Size, 100);
 		vTaskDelay(50);
 		if(menu_ptr == 0)

@@ -96,11 +96,13 @@ begin
 		case state_dout_reg is
 			when idle_dout =>
 				TRIGGER <= '1';
-				mspi_din_vld <= '0';
+				mspi_din_vld <= '1';
+				led1 <= "0111";
 				if mspi_ready = '1' then
 					state_dout_next <= start_dout;
 				end if;
 			when start_dout =>
+				led1 <= "1011";
 				state_dout_next <= done_dout;
 			when done_dout =>
 				if mspi_dout_vld = '1' then
@@ -112,7 +114,7 @@ begin
 			when wait_dout =>
 				TRIGGER <= '0';
 				mspi_din <= echo_data;		-- write
-				mspi_din_vld <= '1';
+				mspi_din_vld <= '0';
 				state_dout_next <= idle_dout;
 		end case;
 		state_dout_reg <= state_dout_next;
