@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/dan/dev/Xilinx/SPI_test2/tb_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="math_real" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_arith" />
+            <top_module name="std_logic_signed" />
+            <top_module name="tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="13" />
+   <wvobject fp_name="/tb/miso_i" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">miso_i</obj_property>
+      <obj_property name="ObjectShortName">miso_i</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/mosi_o" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">mosi_o</obj_property>
+      <obj_property name="ObjectShortName">mosi_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/sclk_o" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sclk_o</obj_property>
+      <obj_property name="ObjectShortName">sclk_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/ss_o" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ss_o[1:0]</obj_property>
+      <obj_property name="ObjectShortName">ss_o[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/mspi_ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">mspi_ready</obj_property>
+      <obj_property name="ObjectShortName">mspi_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/mspi_din_vld" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">mspi_din_vld</obj_property>
+      <obj_property name="ObjectShortName">mspi_din_vld</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/mspi_dout_vld" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">mspi_dout_vld</obj_property>
+      <obj_property name="ObjectShortName">mspi_dout_vld</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/mspi_din" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">mspi_din[7:0]</obj_property>
+      <obj_property name="ObjectShortName">mspi_din[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/mspi_dout" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">mspi_dout[7:0]</obj_property>
+      <obj_property name="ObjectShortName">mspi_dout[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/stlv_temp1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">stlv_temp1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">stlv_temp1[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/stlv_temp1a" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">stlv_temp1a[7:0]</obj_property>
+      <obj_property name="ObjectShortName">stlv_temp1a[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">addr[1:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/sample" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">sample[7:0]</obj_property>
+      <obj_property name="ObjectShortName">sample[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+</wave_config>

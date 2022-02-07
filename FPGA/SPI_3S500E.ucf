@@ -1,0 +1,42 @@
+##############################################Core3S500E#################################################
+NET		"clk"	LOC = "P184" ;
+NET		"reset"	LOC = "P101" ;
+
+NET "reset" CLOCK_DEDICATED_ROUTE = FALSE;
+
+# serial port
+NET		"tx_uart"		LOC = "P34";
+
+# led1 is the build-in LED's on the board
+NET		"led1[0]"	LOC = "p68";
+NET		"led1[1]"	LOC = "p78";
+NET		"led1[2]"	LOC = "p83";
+NET		"led1[3]"	LOC = "p89";
+
+#SPI master signals
+#NET		"MOSI_o"	LOC = "P96";
+#NET		"MISO_i"	LOC = "P98";
+#NET		"SCLK_o"	LOC = "P100";
+#NET		"SS_o"		LOC = "P106";
+#NET		"TRIGGER"	LOC = "P108";
+
+#SPI slave signals
+NET		"MOSI_i"	LOC = "P96";
+NET		"MISO_o"	LOC = "P98";
+NET		"SCLK_i"	LOC = "P100";
+NET		"SS_i"		LOC = "P106";
+NET		"TRIGGER"	LOC = "P108";
+
+NET		"MOSI_i"		PULLUP;
+
+# 100	99	bottom left 
+# 98	97  looking at underneath
+# 96	94
+# 93	90	these are not on DKV600
+
+# pin #'s on lower row starting from bottom
+#96
+#98
+#100
+#106
+#108
