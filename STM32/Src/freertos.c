@@ -77,7 +77,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-#define DATA_SIZE 100
+#define DATA_SIZE 200
 static 	uint8_t data[DATA_SIZE];
 static 	uint8_t rdata[DATA_SIZE];
 
@@ -165,6 +165,7 @@ void StartDefaultTask(void const * argument)
 	int i;
 	uint8_t xbyte = 0x21;
 	int menu_ptr = 0;
+	uint32_t error = 0;
 
 	HAL_StatusTypeDef ret;
 
@@ -193,21 +194,54 @@ void StartDefaultTask(void const * argument)
 		vTaskDelay(1);
 		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_RESET);
 		vTaskDelay(1);
-		HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
+//		HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
 		vTaskDelay(1);
 		// hspi1 is conf as master; hspi2 is slave
-		HAL_SPI_TransmitReceive(&hspi2, &data[0], &rdata[0], Size, 100);
+		for(i = 0;i < DATA_SIZE;i++)
+		{
+			rdata[i] = '_';
+		}
+		ret = HAL_SPI_TransmitReceive(&hspi2, &data[0], &rdata[0], Size, 100);
+/*
+		error = HAL_SPI_GetError(&hspi2);
+		switch(error)
+		{
+			case HAL_TIMEOUT:
+				xbyte = '&';
+				HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
+			break;
+			case HAL_BUSY:
+				xbyte = '#';
+				HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
+			break;
+			case HAL_ERROR:
+				xbyte = '%';
+				HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
+			break;
+			default:
+				xbyte = '!';
+				HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
+			break;
+		}
+*/
 		vTaskDelay(1);
-		HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
-		vTaskDelay(1);
+//		HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
+		vTaskDelay(200);
+
+		for(i = 0;i < DATA_SIZE;i++)
+		{
+			if(rdata[i] > 126 || rdata[i] < 32)
+				rdata[i] = '_';
+		}
+
 		ret = HAL_UART_Transmit(&huart2, &rdata[0], Size, 100);
 		
 		xbyte = '\r';
 		HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
 		xbyte = '\n';
 		HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
-		
-		vTaskDelay(500);
+
+		vTaskDelay(1);
 		if(menu_ptr == 0)
 		{
 			HAL_GPIO_WritePin(GPIOD, LED1_Pin, GPIO_PIN_RESET);
