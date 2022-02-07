@@ -67,7 +67,7 @@ tx_uart_wrapper_unit: entity work.uartLED(str_arch)
 	tx=>tx_uart);
 
 spi_master_unit: entity work.SPI_MASTER(RTL)
-	generic map(CLK_FREQ=>50000000,SCLK_FREQ=>1000000,SLAVE_COUNT=>2)
+	generic map(CLK_FREQ=>50000000,SCLK_FREQ=>300000,SLAVE_COUNT=>2)
 	port map(CLK=>clk, RST=>reset,
 	SCLK=>SCLK_o,
 	MOSI=>MOSI_o,
@@ -98,6 +98,7 @@ begin
 		TRIGGER <= '0';
 		addr <= '0';
 		SS_o <= '0';
+--		mspi_dout <= (others=>'0');
 		
 	else if clk'event and clk = '1' then
 		case state_dout_reg is
@@ -105,7 +106,8 @@ begin
 				if mspi_ready = '1' then
 					TRIGGER <= '1';
 					SS_o <= '1';
-					mspi_din <= conv_std_logic_vector(conv_integer(sample),8);  -- write
+--					mspi_din <= conv_std_logic_vector(conv_integer(sample),8);  -- write
+					mspi_din <= stlv_temp1a;
 					led1 <= conv_std_logic_vector(conv_integer(sample),4);
 					skip <= not skip;
 					if skip = '1' then
@@ -131,7 +133,7 @@ begin
 				end if;
 			when time_delay_dout =>
 				send_flag <= '0';
-				if time_delay_reg > TIME_DELAY9/2 then	-- about 800us
+				if time_delay_reg > TIME_DELAY9/7 then	-- about 800us
 --				if time_delay_reg > TIME_DELAY8 then	-- about 20ms
 --				if time_delay_reg > TIME_DELAY6 then	-- about 167ms
 --				if time_delay_reg > TIME_DELAY5a then	-- about 320ms

@@ -168,13 +168,14 @@ void StartDefaultTask(void const * argument)
 	uint32_t error = 0;
 
 	HAL_StatusTypeDef ret;
-/*
+
 	for(i = 0;i < DATA_SIZE;i++)
 	{
 		data[i] = xbyte;
-		if(++xbyte > 0x7e)
-			xbyte = 0x21;
+		if(++xbyte > 0x7d)
+			xbyte = 0x20;
 	}
+/*
 	xbyte = 0x7e;
 	for(i = 0;i < DATA_SIZE;i++)
 	{
@@ -202,8 +203,8 @@ void StartDefaultTask(void const * argument)
 			rdata[i] = '_';
 		}
 */
-//		ret = HAL_SPI_TransmitReceive(&hspi2, &data[0], &rdata[0], Size, 100);
-		HAL_SPI_Receive(&hspi2, &rdata[0], Size, 2000);
+		ret = HAL_SPI_TransmitReceive(&hspi2, &data[0], &rdata[0], Size, 2000);
+//		HAL_SPI_Receive(&hspi2, &rdata[0], Size, 2000);
 /*
 		for(i = 0;i < DATA_SIZE;i++)
 		{
@@ -212,7 +213,7 @@ void StartDefaultTask(void const * argument)
 		}
 */
 		ret = HAL_UART_Transmit(&huart2, &rdata[0], Size, 100);
-		vTaskDelay(5);
+		vTaskDelay(1);
 /*
 		xbyte = '\r';
 		HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
