@@ -1,0 +1,33 @@
+MOSI_i"		P96
+MISO_o"		P98
+SCLK_i"		P100
+SS_i"		P106
+TRIGGER"	P108
+
+100	99	bottom left 
+98	97  looking at underneath
+96	94
+93	90	these are not on DKV600
+
+# pin #'s on lower row starting from bottom (16I/Os_2 on DKV600)
+#96		starting from bottom right going up
+#98
+#100
+#106
+#108
+
+STM: 
+
+(SPI1 master)
+MOSI	PA7
+MISO	PA6
+SCLK	PB3
+SS		PC4
+
+(SPI2 slave)
+MOSI	PC3
+MISO	PC2
+SCLK	PB10
+SS		PC5
+
+TRIG	PB7

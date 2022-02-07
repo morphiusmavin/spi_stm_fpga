@@ -184,7 +184,8 @@ void StartDefaultTask(void const * argument)
 //		data[0]++;
 		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
-		HAL_SPI_TransmitReceive(&hspi1, &data[0], &rdata[0], Size, 100);
+		// hspi1 is conf as master; hspi2 is slave
+		HAL_SPI_TransmitReceive(&hspi2, &data[0], &rdata[0], Size, 100);
 		HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_RESET);
 		ret = HAL_UART_Transmit(&huart2, &rdata[0], Size, 100);
