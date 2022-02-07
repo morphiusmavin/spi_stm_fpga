@@ -77,7 +77,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-#define DATA_SIZE 50
+#define DATA_SIZE 100
 static 	uint8_t data[DATA_SIZE];
 static 	uint8_t rdata[DATA_SIZE];
 
@@ -191,6 +191,8 @@ void StartDefaultTask(void const * argument)
 //		data[0]++;
 		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_SET);
 		vTaskDelay(1);
+		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_RESET);
+		vTaskDelay(1);
 		HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
 		vTaskDelay(1);
 		// hspi1 is conf as master; hspi2 is slave
@@ -198,10 +200,14 @@ void StartDefaultTask(void const * argument)
 		vTaskDelay(1);
 		HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 		vTaskDelay(1);
-		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_RESET);
-		vTaskDelay(1);
 		ret = HAL_UART_Transmit(&huart2, &rdata[0], Size, 100);
-		vTaskDelay(100);
+		
+		xbyte = '\r';
+		HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
+		xbyte = '\n';
+		HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
+		
+		vTaskDelay(500);
 		if(menu_ptr == 0)
 		{
 			HAL_GPIO_WritePin(GPIOD, LED1_Pin, GPIO_PIN_RESET);

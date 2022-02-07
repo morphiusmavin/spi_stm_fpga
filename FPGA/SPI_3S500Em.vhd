@@ -93,7 +93,7 @@ begin
 		time_delay_reg <= (others=>'0');
 		time_delay_next <= (others=>'0');
 		sample <= (others=>'0');
---		sample <= X"A9";
+		sample <= X"30";
 		send_flag <= '0';
 		led1 <= "0000";
 		TRIGGER <= '0';
@@ -109,8 +109,8 @@ begin
 					led1 <= conv_std_logic_vector(conv_integer(sample),4);
 					skip <= not skip;
 					if skip = '1' then
-						if sample > 126 then
-							sample <= X"21";
+						if sample > 100 then
+							sample <= X"30";
 						else	
 							sample <= sample + 1;
 						end if;
@@ -131,7 +131,7 @@ begin
 				end if;
 			when time_delay_dout =>
 				send_flag <= '0';
-				if time_delay_reg > TIME_DELAY9/6 then	-- about 350us
+				if time_delay_reg > TIME_DELAY9/10 then	-- about 350us
 --				if time_delay_reg > TIME_DELAY8 then	-- about 20ms
 --				if time_delay_reg > TIME_DELAY8c then	-- about 10ms
 					time_delay_next <= (others=>'0');
