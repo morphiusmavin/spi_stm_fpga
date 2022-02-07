@@ -77,7 +77,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-#define DATA_SIZE 300
+#define DATA_SIZE 500
 static 	uint8_t data[DATA_SIZE];
 static 	uint8_t rdata[DATA_SIZE];
 
@@ -169,49 +169,25 @@ void StartDefaultTask(void const * argument)
 
 	HAL_StatusTypeDef ret;
 
-	for(i = 0;i < DATA_SIZE;i++)
+	for(i = 0;i < DATA_SIZE/2;i++)
 	{
 		data[i] = xbyte;
-		if(++xbyte > 0x7d)
-			xbyte = 0x20;
+		if(++xbyte > 0x7f)
+			xbyte = 0x1f;
 	}
-/*
-	xbyte = 0x7e;
-	for(i = 0;i < DATA_SIZE;i++)
+	xbyte = 0x7f;
+	for(i = DATA_SIZE/2;i < DATA_SIZE;i++)
 	{
-		rdata[i] = xbyte;
-		if(--xbyte < 0x21)
-			xbyte = 0x73;
+		data[i] = xbyte;
+		if(--xbyte < 0x1f)
+			xbyte = 0x7f;
 	}
-	vTaskDelay(1000);
-*/
 	/* Infinite loop */
 
 	for(;;)
 	{
-		// scope trigger (PB7)
-//		data[0]++;
-//		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_SET);
-//		vTaskDelay(1);
-//		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_RESET);
-//		vTaskDelay(1);
-//		vTaskDelay(1);
-		// hspi1 is conf as master; hspi2 is slave
-/*
-		for(i = 0;i < DATA_SIZE;i++)
-		{
-			rdata[i] = '_';
-		}
-*/
 		ret = HAL_SPI_TransmitReceive(&hspi2, &data[0], &rdata[0], Size, 2000);
-//		HAL_SPI_Receive(&hspi2, &rdata[0], Size, 2000);
-/*
-		for(i = 0;i < DATA_SIZE;i++)
-		{
-			if(rdata[i] > 126 || rdata[i] < 32)
-				rdata[i] = '_';
-		}
-*/
+		vTaskDelay(1);
 		ret = HAL_UART_Transmit(&huart2, &rdata[0], Size, 100);
 		vTaskDelay(1);
 /*

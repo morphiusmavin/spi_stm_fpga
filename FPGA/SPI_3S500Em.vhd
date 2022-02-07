@@ -133,7 +133,7 @@ begin
 				end if;
 			when time_delay_dout =>
 				send_flag <= '0';
-				if time_delay_reg > TIME_DELAY9/7 then	-- about 800us
+				if time_delay_reg > TIME_DELAY9/8 then	-- about 800us
 --				if time_delay_reg > TIME_DELAY8 then	-- about 20ms
 --				if time_delay_reg > TIME_DELAY6 then	-- about 167ms
 --				if time_delay_reg > TIME_DELAY5a then	-- about 320ms
