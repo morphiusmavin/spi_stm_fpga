@@ -194,46 +194,23 @@ void StartDefaultTask(void const * argument)
 		vTaskDelay(1);
 		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_RESET);
 		vTaskDelay(1);
-//		HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
 		vTaskDelay(1);
 		// hspi1 is conf as master; hspi2 is slave
 		for(i = 0;i < DATA_SIZE;i++)
 		{
 			rdata[i] = '_';
 		}
-		ret = HAL_SPI_TransmitReceive(&hspi2, &data[0], &rdata[0], Size, 100);
-/*
-		error = HAL_SPI_GetError(&hspi2);
-		switch(error)
-		{
-			case HAL_TIMEOUT:
-				xbyte = '&';
-				HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
-			break;
-			case HAL_BUSY:
-				xbyte = '#';
-				HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
-			break;
-			case HAL_ERROR:
-				xbyte = '%';
-				HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
-			break;
-			default:
-				xbyte = '!';
-				HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
-			break;
-		}
-*/
+//		ret = HAL_SPI_TransmitReceive(&hspi2, &data[0], &rdata[0], Size, 100);
+		HAL_SPI_Receive(&hspi2, &rdata[0], Size, 100);
 		vTaskDelay(1);
-//		HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 		vTaskDelay(200);
-
+/*
 		for(i = 0;i < DATA_SIZE;i++)
 		{
 			if(rdata[i] > 126 || rdata[i] < 32)
 				rdata[i] = '_';
 		}
-
+*/
 		ret = HAL_UART_Transmit(&huart2, &rdata[0], Size, 100);
 		
 		xbyte = '\r';
