@@ -201,7 +201,7 @@ void StartDefaultTask(void const * argument)
 		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_RESET);
 		vTaskDelay(1);
 		ret = HAL_UART_Transmit(&huart2, &rdata[0], Size, 100);
-		vTaskDelay(500);
+		vTaskDelay(100);
 		if(menu_ptr == 0)
 		{
 			HAL_GPIO_WritePin(GPIOD, LED1_Pin, GPIO_PIN_RESET);
