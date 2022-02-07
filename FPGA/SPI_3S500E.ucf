@@ -14,20 +14,20 @@ NET		"led1[2]"	LOC = "p83";
 NET		"led1[3]"	LOC = "p89";
 
 #SPI master signals
-#NET		"MOSI_o"	LOC = "P96";
-#NET		"MISO_i"	LOC = "P98";
-#NET		"SCLK_o"	LOC = "P100";
-#NET		"SS_o"		LOC = "P106";
-#NET		"TRIGGER"	LOC = "P108";
+NET		"MOSI_o"	LOC = "P96";
+NET		"MISO_i"	LOC = "P98";
+NET		"SCLK_o"	LOC = "P100";
+NET		"SS_o"		LOC = "P106";
+NET		"MISO_i"		PULLUP;
 
 #SPI slave signals
-NET		"MOSI_i"	LOC = "P96";
-NET		"MISO_o"	LOC = "P98";
-NET		"SCLK_i"	LOC = "P100";
-NET		"SS_i"		LOC = "P106";
-NET		"TRIGGER"	LOC = "P108";
+#NET		"MOSI_i"	LOC = "P96";
+#NET		"MISO_o"	LOC = "P98";
+#NET		"SCLK_i"	LOC = "P100";
+#NET		"SS_i"		LOC = "P106";
+#NET		"MOSI_i"		PULLUP;
 
-NET		"MOSI_i"		PULLUP;
+NET		"TRIGGER"	LOC = "P108";
 
 # 100	99	bottom left 
 # 98	97  looking at underneath
