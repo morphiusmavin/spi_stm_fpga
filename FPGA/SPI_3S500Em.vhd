@@ -67,7 +67,7 @@ tx_uart_wrapper_unit: entity work.uartLED(str_arch)
 	tx=>tx_uart);
 
 spi_master_unit: entity work.SPI_MASTER(RTL)
-	generic map(CLK_FREQ=>50000000,SCLK_FREQ=>300000,SLAVE_COUNT=>2)
+	generic map(CLK_FREQ=>50000000,SCLK_FREQ=>1000000,SLAVE_COUNT=>2)
 	port map(CLK=>clk, RST=>reset,
 	SCLK=>SCLK_o,
 	MOSI=>MOSI_o,
