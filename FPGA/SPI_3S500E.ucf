@@ -5,7 +5,7 @@ NET		"reset"	LOC = "P101" ;
 NET "reset" CLOCK_DEDICATED_ROUTE = FALSE;
 
 # serial port
-NET		"tx_uart"		LOC = "P34";
+NET		"tx_uart"		LOC = "P112";
 
 # led1 is the build-in LED's on the board
 NET		"led1[0]"	LOC = "p68";

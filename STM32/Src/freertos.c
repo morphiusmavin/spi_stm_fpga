@@ -121,17 +121,17 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
-#if 0
+//  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+//  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+
   /* definition and creation of myTask02 */
-  osThreadDef(myTask02, StartTask02, osPriorityIdle, 0, 128);
-  myTask02Handle = osThreadCreate(osThread(myTask02), NULL);
+//  osThreadDef(myTask02, StartTask02, osPriorityIdle, 0, 128);
+//  myTask02Handle = osThreadCreate(osThread(myTask02), NULL);
 
   /* definition and creation of myTask03 */
   osThreadDef(myTask03, StartTask03, osPriorityIdle, 0, 128);
   myTask03Handle = osThreadCreate(osThread(myTask03), NULL);
-#endif
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -195,6 +195,136 @@ void StartDefaultTask(void const * argument)
 		HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
 		xbyte = '\n';
 		HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
+
+		vTaskDelay(1);
+		if(menu_ptr == 0)
+		{
+			HAL_GPIO_WritePin(GPIOD, LED1_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, LED2_Pin, GPIO_PIN_SET);
+			menu_ptr = 1;
+		}else if(menu_ptr == 1)
+		{
+			HAL_GPIO_WritePin(GPIOD, LED2_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, LED3_Pin, GPIO_PIN_SET);
+			menu_ptr = 2;
+		}else if(menu_ptr == 2)
+		{
+			HAL_GPIO_WritePin(GPIOD, LED3_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, LED4_Pin, GPIO_PIN_SET);
+			menu_ptr = 3;
+		}else if(menu_ptr == 3)
+		{
+			HAL_GPIO_WritePin(GPIOD, LED4_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, LED1_Pin, GPIO_PIN_SET);
+			menu_ptr = 0;
+		}
+*/
+	}
+  /* USER CODE END StartDefaultTask */
+}
+
+/* USER CODE BEGIN Header_StartTask02 */
+/**
+* @brief Function implementing the myTask02 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTask02 */
+void StartTask02(void const * argument)
+{
+  /* USER CODE BEGIN StartTask02 */
+  /* Infinite loop */
+	HAL_StatusTypeDef ret;
+	int i,j;
+	uint8_t *pData;
+	uint16_t Size;
+	int menu_ptr = 0;
+	
+	pData = &data[0];
+	Size = DATA_SIZE;
+	vTaskDelay(1000);
+	for(;;)
+	{
+		ret = HAL_UART_Transmit(&huart3, pData, Size, 100);
+		vTaskDelay(5);
+/*
+		if(menu_ptr == 0)
+		{
+			HAL_GPIO_WritePin(GPIOD, LED1_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, LED2_Pin, GPIO_PIN_SET);
+			menu_ptr = 1;
+		}else if(menu_ptr == 1)
+		{
+			HAL_GPIO_WritePin(GPIOD, LED2_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, LED3_Pin, GPIO_PIN_SET);
+			menu_ptr = 2;
+		}else if(menu_ptr == 2)
+		{
+			HAL_GPIO_WritePin(GPIOD, LED3_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, LED4_Pin, GPIO_PIN_SET);
+			menu_ptr = 3;
+		}else if(menu_ptr == 3)
+		{
+			HAL_GPIO_WritePin(GPIOD, LED4_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, LED1_Pin, GPIO_PIN_SET);
+			menu_ptr = 0;
+		}
+*/
+	}
+  /* USER CODE END StartTask02 */
+}
+
+/* USER CODE BEGIN Header_StartTask03 */
+/**
+* @brief Function implementing the myTask03 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTask03 */
+void StartTask03(void const * argument)
+{
+  /* USER CODE BEGIN StartTask03 */
+  /* Infinite loop */
+	uint8_t *pData = data;
+//	uint16_t Size = DATA_SIZE/100;
+	uint16_t Size = 50;
+	int ctr = 0;
+	int i;
+	uint8_t xbyte = 0x21;
+	int menu_ptr = 0;
+	uint32_t error = 0;
+
+	HAL_StatusTypeDef ret;
+
+	/* Infinite loop */
+
+	for(i = 0;i < DATA_SIZE/2;i++)
+	{
+		data[i] = xbyte;
+		if(++xbyte > 0x7f)
+			xbyte = 0x1f;
+	}
+	xbyte = 0x7f;
+	for(i = DATA_SIZE/2;i < DATA_SIZE;i++)
+	{
+		data[i] = xbyte;
+		if(--xbyte < 0x1f)
+			xbyte = 0x7f;
+	}
+
+	for(;;)
+	{
+		ret = HAL_SPI_TransmitReceive(&hspi2, &data[0], &rdata[0], Size, 2000);
+		vTaskDelay(1);
+		ret = HAL_UART_Transmit(&huart2, &rdata[0], Size, 100);
+		vTaskDelay(1);
+		for(i = 0;i < 50;i++)
+			rdata[i] = 0;
+/*
+		xbyte = '\r';
+		HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
+		xbyte = '\n';
+		HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
 */
 		vTaskDelay(1);
 		if(menu_ptr == 0)
@@ -218,113 +348,6 @@ void StartDefaultTask(void const * argument)
 			HAL_GPIO_WritePin(GPIOD, LED1_Pin, GPIO_PIN_SET);
 			menu_ptr = 0;
 		}
-
-	}
-  /* USER CODE END StartDefaultTask */
-}
-
-/* USER CODE BEGIN Header_StartTask02 */
-/**
-* @brief Function implementing the myTask02 thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartTask02 */
-void StartTask02(void const * argument)
-{
-  /* USER CODE BEGIN StartTask02 */
-  /* Infinite loop */
-	HAL_StatusTypeDef ret;
-	int i,j;
-	uint8_t xbyte = 0x21;
-	uint8_t *pData;
-	uint16_t Size;
-	int menu_ptr = 0;
-	int ctr = 0;
-	
-	for(i = 0;i < DATA_SIZE;i++)
-	{
-		data[i] = xbyte;
-		if(++xbyte > 0x7e)
-			xbyte = 0x21;
-	}
-	pData = &data[0];
-//	pData = &xbyte;
-	Size = DATA_SIZE;
-//	Size = 1;
-//	data[DATA_SIZE-2] = '\r';
-//	data[DATA_SIZE-1] = '\n';
-	j = 1;
-
-	for(;;)
-	{
-//		vTaskDelay(500);
-//		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_SET);
-//		for(i = 0;i < j;i++)
-//			vTaskDelay(1);
-		Size--;
-		if(Size < 270)
-			Size = DATA_SIZE;
-
-		if((j += 10) > 500)
-		{
-			j = 1;
-/*
-			xbyte = '\r';
-			HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
-			xbyte = '\n';
-			HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
-*/
-			xbyte = 7;
-			HAL_UART_Transmit(&huart2, &xbyte, 1, 100);
-			vTaskDelay(1000);
-			
-		}
-//		HAL_GPIO_WritePin(GPIOB, TRIG_Pin, GPIO_PIN_RESET);
-		ret = HAL_UART_Transmit(&huart2, pData, Size, 100);
-
-		if(menu_ptr == 0)
-		{
-			HAL_GPIO_WritePin(GPIOD, LED1_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOD, LED2_Pin, GPIO_PIN_SET);
-			menu_ptr = 1;
-		}else if(menu_ptr == 1)
-		{
-			HAL_GPIO_WritePin(GPIOD, LED2_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOD, LED3_Pin, GPIO_PIN_SET);
-			menu_ptr = 2;
-		}else if(menu_ptr == 2)
-		{
-			HAL_GPIO_WritePin(GPIOD, LED3_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOD, LED4_Pin, GPIO_PIN_SET);
-			menu_ptr = 3;
-		}else if(menu_ptr == 3)
-		{
-			HAL_GPIO_WritePin(GPIOD, LED4_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOD, LED1_Pin, GPIO_PIN_SET);
-			menu_ptr = 0;
-		}
-	}
-  /* USER CODE END StartTask02 */
-}
-
-/* USER CODE BEGIN Header_StartTask03 */
-/**
-* @brief Function implementing the myTask03 thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartTask03 */
-void StartTask03(void const * argument)
-{
-  /* USER CODE BEGIN StartTask03 */
-  /* Infinite loop */
-	uint8_t xbyte = 0x21;
-	
-	for(;;)
-	{
-		vTaskDelay(100);
-		xbyte++;
 	}
   /* USER CODE END StartTask03 */
 }

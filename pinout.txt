@@ -30,4 +30,26 @@ MISO	PC2
 SCLK	PB10
 SS		PC5
 
+(SPI3 slave)
+MOSI	PC12
+MISO	PC11
+SCLK	PC10
+SS		(nc)
+
 TRIG	PB7
+
+STM usart
+
+usart2: 
+TX	PA2
+RX	PA3
+
+usart3:
+TX	PD8
+RX	PD11
+
+COM2 on TS-7800
+1 2 3 4 5 (row near the edge)
+2 RX 
+3 TX 
+5 GND

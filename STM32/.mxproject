@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=C:/Users/Daniel/dev/STM32F407/new_board/Inc
+HeaderPath=C:/Users/Daniel/dev/spi_stm_fpga/STM32/Inc
 HeaderFiles=FreeRTOSConfig.h;stm32f4xx_it.h;stm32f4xx_hal_conf.h;main.h;gpio.h;spi.h;dac.h;usart.h;
-SourcePath=C:/Users/Daniel/dev/STM32F407/new_board/Src
+SourcePath=C:/Users/Daniel/dev/spi_stm_fpga/STM32/Src
 SourceFiles=freertos.c;stm32f4xx_it.c;stm32f4xx_hal_msp.c;stm32f4xx_hal_timebase_tim.c;main.c;gpio.c;spi.c;dac.c;usart.c;
 
 [PreviousLibFiles]
