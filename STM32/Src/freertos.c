@@ -125,12 +125,12 @@ void MX_FREERTOS_Init(void) {
 //  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of myTask02 */
-//  osThreadDef(myTask02, StartTask02, osPriorityIdle, 0, 128);
-//  myTask02Handle = osThreadCreate(osThread(myTask02), NULL);
+  osThreadDef(myTask02, StartTask02, osPriorityIdle, 0, 128);
+  myTask02Handle = osThreadCreate(osThread(myTask02), NULL);
 
   /* definition and creation of myTask03 */
-  osThreadDef(myTask03, StartTask03, osPriorityIdle, 0, 128);
-  myTask03Handle = osThreadCreate(osThread(myTask03), NULL);
+//  osThreadDef(myTask03, StartTask03, osPriorityIdle, 0, 128);
+//  myTask03Handle = osThreadCreate(osThread(myTask03), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -239,15 +239,25 @@ void StartTask02(void const * argument)
 	uint8_t *pData;
 	uint16_t Size;
 	int menu_ptr = 0;
+	uint8_t xbyte = 0x21;
+
+	for(i = 0;i < DATA_SIZE;i++)
+	{
+		data[i] = xbyte;
+//		if(++xbyte > 0x7f)
+//			xbyte = 0x1f;
+	}
 	
 	pData = &data[0];
 	Size = DATA_SIZE;
 	vTaskDelay(1000);
 	for(;;)
 	{
-		ret = HAL_UART_Transmit(&huart3, pData, Size, 100);
-		vTaskDelay(5);
-/*
+		ret = HAL_UART_Receive(&huart3, pData, Size, 500);
+		vTaskDelay(1);
+		ret = HAL_UART_Transmit(&huart2, pData, Size, 100);
+		vTaskDelay(1);
+
 		if(menu_ptr == 0)
 		{
 			HAL_GPIO_WritePin(GPIOD, LED1_Pin, GPIO_PIN_RESET);
@@ -269,7 +279,6 @@ void StartTask02(void const * argument)
 			HAL_GPIO_WritePin(GPIOD, LED1_Pin, GPIO_PIN_SET);
 			menu_ptr = 0;
 		}
-*/
 	}
   /* USER CODE END StartTask02 */
 }
@@ -316,7 +325,7 @@ void StartTask03(void const * argument)
 	{
 		ret = HAL_SPI_TransmitReceive(&hspi2, &data[0], &rdata[0], Size, 2000);
 		vTaskDelay(1);
-		ret = HAL_UART_Transmit(&huart2, &rdata[0], Size, 100);
+//		ret = HAL_UART_Transmit(&huart2, &rdata[0], Size, 100);
 		vTaskDelay(1);
 		for(i = 0;i < 50;i++)
 			rdata[i] = 0;

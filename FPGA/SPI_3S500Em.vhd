@@ -59,7 +59,7 @@ architecture truck_arch of X3S500E is
 begin
 
 tx_uart_wrapper_unit: entity work.uartLED(str_arch)
-	generic map(DVSR_M=>DVSR_MU_19200)
+	generic map(DVSR_M=>DVSR_MU_115200)
 	port map(clk=>clk, reset=>reset,
 	tx_start=>start_tx,
 	w_data=>data_tx,
@@ -164,7 +164,7 @@ begin
 		start_tx <= '0';
 		time_delay_reg <= (others=>'0');
 		time_delay_next <= (others=>'0');
-		sample2 <= X"21";
+		sample2 <= X"7e";
 		led1 <= (others=>'1');
 		TRIGGER <= '0';
 
@@ -179,7 +179,7 @@ begin
 
 			when idle11 =>	
 --				if time_delay_reg > TIME_DELAY8 then
-				if time_delay_reg > TIME_DELAY9 then	-- about 2.5ms
+				if time_delay_reg > TIME_DELAY9/2 then	-- about 2.5ms
 					time_delay_next <= (others=>'0');
 --					state_tx1_next <= idle1;
 					state_tx1_next <= start2;
@@ -188,15 +188,15 @@ begin
 				end if;
 				
 			when start2 =>
-				-- if sample2 > 126 then
-					-- sample2 <= X"21";
-				-- else	
-					-- sample2 <= sample2 + 1;
-				-- end if;
+				if sample2 < 33 then
+					sample2 <= X"7e";
+				else	
+					sample2 <= sample2 - 1;
+				end if;
 --				if send_flag = '1' then
 					TRIGGER <= '0';
-					data_tx <= conv_std_logic_vector(conv_integer(stlv_temp1a),8);
-					led1 <= conv_std_logic_vector(conv_integer(stlv_temp1a),4);
+					data_tx <= conv_std_logic_vector(conv_integer(sample2),8);
+					led1 <= conv_std_logic_vector(conv_integer(sample2),4);
 					start_tx <= '1';
 					state_tx1_next <= done;
 --				end if;
